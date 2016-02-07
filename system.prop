@@ -1,3 +1,147 @@
 #
 # system.prop for msm8916
 #
+rild.libpath=/vendor/lib64/libril-qc-qmi-1.so
+rild.libargs=-d /dev/smd0
+persist.rild.nitz_plmn=
+persist.rild.nitz_long_ons_0=
+persist.rild.nitz_long_ons_1=
+persist.rild.nitz_long_ons_2=
+persist.rild.nitz_long_ons_3=
+persist.rild.nitz_short_ons_0=
+persist.rild.nitz_short_ons_1=
+persist.rild.nitz_short_ons_2=
+persist.rild.nitz_short_ons_3=
+persist.radio.rat_on=combine
+ril.subscription.types=RUIM
+DEVICE_PROVISIONED=1
+
+# Start in cdma mode
+ro.telephony.default_network=22
+
+debug.sf.hw=0
+debug.egl.hw=0
+persist.hwc.mdpcomp.enable=true
+debug.mdpcomp.logs=0
+dalvik.vm.heapsize=36m
+dalvik.vm.zygotemaxfailedboots=5
+dev.pm.dyn_samplingrate=1
+persist.demo.hdmirotationlock=false
+debug.mdpcomp.idletime=600
+debug.enable.sglscale=1
+
+# system props for the cne module
+persist.cne.feature=1
+
+# system props for the dpm module
+persist.dpm.feature=3
+
+#system props for the MM modules
+media.stagefright.enable-player=true
+media.stagefright.enable-http=true
+media.stagefright.enable-aac=true
+media.stagefright.enable-qcp=true
+media.stagefright.enable-fma2dp=true
+media.stagefright.enable-scan=true
+media.msm8939hw=0
+media.msm8929hw=0
+mm.enable.smoothstreaming=true
+mmp.enable.3g2=true
+media.aac_51_output_enabled=true
+mm.enable.qcom_parser=3407871
+
+# Default to AwesomePlayer
+media.stagefright.use-awesome=false
+
+# system props for the data modules
+ro.use_data_netmgrd=true
+persist.data.netmgrd.qos.enable=true
+
+# system props for time-services
+persist.timed.enable=true
+
+# system prop for opengles version
+ro.opengles.version=196608
+
+# System property for cabl
+ro.qualcomm.cabl=0
+ro.qcom.ad=1
+ro.qcom.ad.calib.data=/system/etc/calib.cfg
+ro.qcom.ad.sensortype=2
+
+# System props for telephony
+telephony.lteOnCdmaDevice=1
+
+# System prop to turn on hfp client
+bluetooth.hfp.client=1
+
+#Simulate sdcard on /data/media
+persist.fuse_sdcard=true
+
+ro.qc.sdk.audio.ssr=false
+ro.qc.sdk.audio.fluencetype=fluence
+persist.audio.fluence.voicecall=true
+persist.audio.fluence.voicerec=false
+persist.audio.fluence.speaker=false
+tunnel.audio.encode = false
+audio.offload.disable=1
+audio.offload.buffer.size.kb=64
+audio.offload.min.duration.secs=30
+av.offload.enable=true
+use.voice.path.for.pcm.voip=true
+
+#System property for FM transmitter
+ro.fm.transmitter=false
+#enable dsp gapless mode by default
+audio.offload.gapless.enabled=true
+#Audio voice concurrency related flags
+voice.playback.conc.disabled=true
+voice.record.conc.disabled=true
+voice.voip.conc.disabled=true
+
+#Set composition for USB
+persist.sys.usb.factory=0
+
+#Set read only default composition for USB
+ro.sys.usb.default.config=mtp,adb
+
+#property to enable user to access Google WFD settings
+persist.debug.wfd.enable=1
+#property to enable VDS WFD solution
+persist.hwc.enable_vds=1
+#property to enable narrow search range for video encoding
+vidc.enc.narrow.searchrange=1
+
+#property to enable DS2 dap
+audio.dolby.ds2.enabled=true
+
+#HWUI properties
+ro.hwui.text_large_cache_height=2048
+ro.hwui.texture_cache_size=40
+
+# Enable DRM system property
+drm.service.enabled=1
+#Trim properties
+ro.sys.fw.use_trim_settings=true
+ro.sys.fw.empty_app_percent=50
+ro.sys.fw.trim_empty_percent=100
+ro.sys.fw.trim_cache_percent=100
+ro.sys.fw.trim_enable_memory=1073741824
+
+#Factory Reset Protection
+ro.frp.pst=/dev/block/bootdevice/by-name/config
+
+#Enable B service adj transition by default
+ro.sys.fw.bservice_enable=true
+ro.sys.fw.bservice_limit=5
+ro.sys.fw.bservice_age=5000
+
+#min/max cpu in core control
+ro.core_ctl_min_cpu=2
+ro.core_ctl_max_cpu=4
+
+persist.camera.pip.support=0
+ro.xiaomi.signalbars=five
+persist.audio.dirac.speaker=true
+ro.camera.sensors=s5k3l8,ov13853_q13853a,ov5670_q5v41b,s5k5e8
+persist.sys.chgdisabled=0
