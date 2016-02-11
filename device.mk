@@ -56,10 +56,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
-# Power HAL
-PRODUCT_PACKAGES += \
-    power.msm8916
-
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8916 \
@@ -67,3 +63,12 @@ PRODUCT_PACKAGES += \
     hwcomposer.msm8916 \
     libtinyxml \
     memtrack.msm8916
+
+# FM
+PRODUCT_PACKAGES += \
+    FMRadio \
+    libfmjni
+
+# Power HAL
+PRODUCT_PACKAGES += \
+    power.msm8916
