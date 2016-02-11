@@ -59,5 +59,8 @@ BLUETOOTH_HCI_USE_MCT := true
 
 USE_DEVICE_SPECIFIC_CAMERA := true
 
+# System Properties
+TARGET_SYSTEM_PROP += $(LOCAL_PATH)/system.prop
+
 # inherit from the proprietary version
 -include vendor/xiaomi/ido/BoardConfigVendor.mk
