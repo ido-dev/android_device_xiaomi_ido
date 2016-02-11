@@ -62,11 +62,16 @@ TARGET_USE_VENDOR_CAMERA_EXT := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Qualcomm support
-BOARD_USES_QC_TIME_SERVICES := true
+COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
+COMMON_GLOBAL_CFLAGS += -DQCOM_BSP
 BOARD_USES_QCOM_HARDWARE := true
+TARGET_USES_QCOM_BSP := true
 
 # System Properties
 TARGET_SYSTEM_PROP += $(LOCAL_PATH)/system.prop
+
+# Time Service
+BOARD_USES_QC_TIME_SERVICES := true
 
 # inherit from the proprietary version
 -include vendor/xiaomi/ido/BoardConfigVendor.mk
