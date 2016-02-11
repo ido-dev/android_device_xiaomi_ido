@@ -59,6 +59,10 @@ BLUETOOTH_HCI_USE_MCT := true
 
 USE_DEVICE_SPECIFIC_CAMERA := true
 
+# Qualcomm support
+BOARD_USES_QC_TIME_SERVICES := true
+BOARD_USES_QCOM_HARDWARE := true
+
 # System Properties
 TARGET_SYSTEM_PROP += $(LOCAL_PATH)/system.prop
 
