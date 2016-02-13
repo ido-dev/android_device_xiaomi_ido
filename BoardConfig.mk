@@ -77,6 +77,9 @@ USE_OPENGL_RENDERER := true
 # FM Radio
 TARGET_QCOM_NO_FM_FIRMWARE := true
 
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
+
 # Power
 TARGET_POWERHAL_VARIANT := qcom
 

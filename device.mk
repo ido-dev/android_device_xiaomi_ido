@@ -69,6 +69,10 @@ PRODUCT_PACKAGES += \
     FMRadio \
     libfmjni
 
+# Lights
+PRODUCT_PACKAGES += \
+    lights.msm8916
+
 # Power HAL
 PRODUCT_PACKAGES += \
     power.msm8916
