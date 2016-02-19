@@ -95,5 +95,10 @@ TARGET_SYSTEM_PROP += $(LOCAL_PATH)/system.prop
 # Time Service
 BOARD_USES_QC_TIME_SERVICES := true
 
+# Dex-Preoptimization
+ifeq ($(HOST_OS),linux)
+    WITH_DEXPREOPT ?= true
+endif
+
 # inherit from the proprietary version
 -include vendor/xiaomi/ido/BoardConfigVendor.mk
