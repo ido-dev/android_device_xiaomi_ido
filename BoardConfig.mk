@@ -111,5 +111,12 @@ ifeq ($(HOST_OS),linux)
     WITH_DEXPREOPT ?= true
 endif
 
+# SELinux policies
+# qcom sepolicy
+include device/qcom/sepolicy/sepolicy.mk
+
+BOARD_SEPOLICY_DIRS += \
+        $(LOCAL_PATH)/sepolicy
+
 # inherit from the proprietary version
 -include vendor/xiaomi/ido/BoardConfigVendor.mk
