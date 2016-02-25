@@ -106,6 +106,9 @@ TARGET_SYSTEM_PROP += $(LOCAL_PATH)/system.prop
 # Time Service
 BOARD_USES_QC_TIME_SERVICES := true
 
+# Include an expanded selection of fonts
+EXTENDED_FONT_FOOTPRINT := true
+
 # Dex-Preoptimization
 ifeq ($(HOST_OS),linux)
     WITH_DEXPREOPT ?= true
