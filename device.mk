@@ -82,6 +82,14 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     tinymix
 
+# Charger
+PRODUCT_PACKAGES += \
+    charger_res_images
+
+# Connectivity Engine support
+PRODUCT_PACKAGES += \
+    libcnefeatureconfig
+
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8916 \
@@ -92,8 +100,16 @@ PRODUCT_PACKAGES += \
 
 # FM
 PRODUCT_PACKAGES += \
-    FMRadio \
-    libfmjni
+    FM2 \
+    FMRecord \
+    libqcomfm_jni \
+    qcom.fmradio
+
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+    e2fsck \
+    make_ext4fs \
+    setup_fs
 
 # GPS
 PRODUCT_COPY_FILES += \
@@ -140,6 +156,11 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PACKAGES += \
     power.msm8916
 
+# Ril
+PRODUCT_PACKAGES += \
+    libtinyxml2 \
+    libxml2
+
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
@@ -155,6 +176,13 @@ PRODUCT_PACKAGES += \
     init.qcom.sh \
     init.qcom.syspart_fixup.sh \
     init.qcom.usb.sh
+
+# USB
+PRODUCT_PACKAGES += \
+    com.android.future.usb.accessory
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
 
 # WiFi
 PRODUCT_PACKAGES += \
