@@ -85,6 +85,9 @@ TARGET_USES_C2D_COMPOSITION := true
 TARGET_USES_ION := true
 USE_OPENGL_RENDERER := true
 
+# Malloc Implementation
+MALLOC_IMPL := dlmalloc
+
 # FM Radio
 TARGET_QCOM_NO_FM_FIRMWARE := true
 
