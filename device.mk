@@ -176,6 +176,21 @@ PRODUCT_PACKAGES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
+# Properties to overwrite (Default)
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.radio.restore_mode_pref=1 \
+    persist.radio.ignore_dom_time=5 \
+    persist.radio.multisim.config=dsds \
+    persist.radio.always_send_plmn=true
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.ts.postmakeup=true \
+    persist.ts.rtmakeup=true
+
+# Camera API
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    camera2.portability.force_api=1
+
 # WiFi
 PRODUCT_PACKAGES += \
     dhcpcd.conf \
