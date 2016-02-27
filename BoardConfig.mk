@@ -103,6 +103,10 @@ TARGET_POWERHAL_VARIANT := qcom
 # Qualcomm support
 BOARD_USES_QCOM_HARDWARE := true
 
+# RIL
+PROTOBUF_SUPPORTED := true
+TARGET_RIL_VARIANT := proprietary
+
 # System Properties
 TARGET_SYSTEM_PROP += $(LOCAL_PATH)/system.prop
 
