@@ -90,6 +90,10 @@ USE_OPENGL_RENDERER := true
 # FM Radio
 TARGET_QCOM_NO_FM_FIRMWARE := true
 
+# Init
+TARGET_INIT_VENDOR_LIB := libinit_msm
+TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
+
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
