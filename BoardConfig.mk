@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DEVICE_PATH := device/huawei/kiwi
+DEVICE_PATH := device/xiaomi/ido
 
 TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_PATH)/include
 
@@ -41,28 +41,26 @@ TARGET_CPU_CORTEX_A53 := true
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 TARGET_NO_BOOTLOADER := true
-TARGET_OTA_ASSERT_DEVICE := kiwi
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_DTBTOOL_ARGS := -2
-BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
+BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET     := 0x02000000
-TARGET_KERNEL_SOURCE := kernel/huawei/kiwi
+TARGET_KERNEL_SOURCE := kernel/xiaomi/ido
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_USES_UNCOMPRESSED_KERNEL := true
-TARGET_KERNEL_CONFIG := cyanogenmod_kiwi-64_defconfig
+TARGET_KERNEL_CONFIG := cyanogenmod_ido_defconfig
 
 # Audio
 AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
 AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 BOARD_USES_ALSA_AUDIO := true
-COMMON_GLOBAL_CFLAGS += -DHUAWEI_SOUND_PARAM_PATH=\"/system/etc/sound_param/kiw_l/\"
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -71,8 +69,6 @@ BLUETOOTH_HCI_USE_MCT := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Camera
-BOARD_CAMERA_SENSORS := imx135_cp8675 imx214_cp8675 ov5648_cp8675
-COMMON_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
 TARGET_USE_VENDOR_CAMERA_EXT := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
@@ -110,22 +106,19 @@ TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 TARGET_PROVIDES_LIBLIGHT := true
 
 # Partitions
-TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
 # /proc/partitions * 2 * BLOCK_SIZE (512) = size in bytes
-BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2684354560
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 11618204672
-BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
-BOARD_PERSISTIMAGE_PARTITION_SIZE := 67108864
+BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 34197504
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 13258652672
+BOARD_CACHEIMAGE_PARTITION_SIZE := 274726912
+BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_FLASH_BLOCK_SIZE := 131072 # blockdev --getbsz /dev/block/mmcblk0p19
 
 # Power
 TARGET_POWERHAL_VARIANT := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/huawei/kiwi/power/power_ext.c
-TARGET_TAP_TO_WAKE_NODE := /sys/touch_screen/easy_wakeup_gesture
 
 # Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
@@ -141,18 +134,11 @@ TARGET_RECOVERY_DENSITY := xhdpi
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # RIL
-COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
-BOARD_RIL_CLASS := ../../../device/huawei/kiwi/ril
 PROTOBUF_SUPPORTED := true
-TARGET_RIL_VARIANT := proprietary
+TARGET_RIL_VARIANT := caf
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
-
-# Vendor Init
-TARGET_UNIFIED_DEVICE := true
-TARGET_INIT_VENDOR_LIB := libinit_kiwi
-TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_PATH)/init/init_kiwi.c
 
 # Vold
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
@@ -174,4 +160,5 @@ WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/wlan.ko"
 WIFI_DRIVER_MODULE_NAME := "wlan"
 
 # inherit from the proprietary version
--include vendor/huawei/kiwi/BoardConfigVendor.mk
+-include vendor/xiaomi/ido/BoardConfigVendor.mk
+

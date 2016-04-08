@@ -25,11 +25,19 @@
 <!-- OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN -->
 <!-- IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                          -->
 <audio_platform_info>
-    <backend_names>
-        <device name="SND_DEVICE_OUT_SPEAKER" backend="smart-pa" />
-        <device name="SND_DEVICE_OUT_SPEAKER_REVERSE" backend="smart-pa" />
-        <device name="SND_DEVICE_OUT_SPEAKER_AND_HEADPHONES" backend="smart-pa-and-headphones" />
-        <device name="SND_DEVICE_OUT_VOICE_SPEAKER" backend="smart-pa" />
-    </backend_names>
-</audio_platform_info>
+    <acdb_ids>
+        <device name="SND_DEVICE_OUT_SPEAKER" acdb_id="15" />
+    </acdb_ids>
 
+    <backend_names>
+        <!-- empty -->
+    </backend_names>
+
+    <pcm_ids>
+        <!-- empty -->
+    </pcm_ids>
+
+    <device_names>
+        <!-- empty -->
+    </device_names>
+</audio_platform_info>

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DEVICE=kiwi
-VENDOR=huawei
+DEVICE=ido
+VENDOR=xiaomi
 
 OUTDIR=vendor/$VENDOR/$DEVICE
 MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
@@ -131,7 +131,7 @@ EOF
 
 LOCAL_PATH := \$(call my-dir)
 
-ifeq (\$(TARGET_DEVICE),kiwi)
+ifeq (\$(TARGET_DEVICE),ido)
 ifeq (\$(QCPATH),)
 
 include \$(CLEAR_VARS)
@@ -247,20 +247,6 @@ LOCAL_MULTILIB := 64
 LOCAL_PROPRIETARY_MODULE := true
 include \$(BUILD_PREBUILT)
 
-include \$(CLEAR_VARS)
-LOCAL_MODULE := libtfa9895
-LOCAL_MODULE_OWNER := $VENDOR
-LOCAL_SRC_FILES_64 := proprietary/lib64/libtfa9895.so
-LOCAL_SRC_FILES_32 := proprietary/lib/libtfa9895.so
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_SUFFIX := .so
-LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_MODULE_PATH_64 := \$(TARGET_OUT_SHARED_LIBRARIES)
-LOCAL_MODULE_PATH_32 := \$(2ND_TARGET_OUT_SHARED_LIBRARIES)
-LOCAL_MULTILIB := both
-LOCAL_PROPRIETARY_MODULE := true
-include \$(BUILD_PREBUILT)
-
 \$(shell mkdir -p \$(PRODUCT_OUT)/system/vendor/lib/egl && pushd \$(PRODUCT_OUT)/system/vendor/lib > /dev/null && ln -s egl/libEGL_adreno.so libEGL_adreno.so && popd > /dev/null)
 \$(shell mkdir -p \$(PRODUCT_OUT)/system/vendor/lib64/egl && pushd \$(PRODUCT_OUT)/system/vendor/lib64 > /dev/null && ln -s egl/libEGL_adreno.so libEGL_adreno.so && popd > /dev/null)
 
@@ -268,3 +254,4 @@ endif
 endif
 
 EOF
+

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #set -e
-export DEVICE=kiwi
-export VENDOR=huawei
+export DEVICE=ido
+export VENDOR=xiaomi
 
 if [ $# -eq 0 ]; then
   SRC=adb
@@ -79,4 +79,5 @@ for FILE in `egrep -v '(^#|^$)' proprietary-files.txt`; do
   fi
 done
 
-./setup-makefiles.sh
+bash ./setup-makefiles.sh
+

@@ -1,4 +1,4 @@
-# Copyright (c) 2014, The Linux Foundation. All rights reserved.
+# Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -27,23 +27,18 @@
 #
 #
 
-import /init.target-from-init.rc
-import /init.qcom.power.rc
+import init.carrier.rc
 
 on early-init
     mkdir /firmware 0771 system system
     mkdir /system 0777 root root
     symlink /data/tombstones /tombstones
-    mkdir /log 0770 system log
+
+on init
+    mkdir /cust 0771 system system
 
 on fs
-    export LD_SHIM_LIBS /system/lib/libcamera_post_mediaserver.so|libshim_camera_post_mediaserver:/system/lib64/libcutils.so|libshim_cutils.so:/system/lib/libcutils.so|libshim_cutils.so:/system/vendor/lib64/liblocationservice.so|libshim_gps.so:/system/vendor/lib/libmmqjpeg_codec.so|libboringssl-compat.so:/system/lib64/libril.so|libshim_ril.so:/system/lib64/hw/sensors.msm8916.so|libshim_sensormanager.so:/system/lib/hw/camera.msm8916.so|libshim_sensormanager.so:/system/bin/mm-pp-daemon|libshim_sensormanager.so:/system/lib/hw/audio.primary.msm8916.so|libshim_sound_trigger.so
-
     mount_all fstab.qcom
-
-    swapon_all fstab.qcom
-    write /proc/sys/vm/swappiness 100
-    write /proc/sys/vm/page-cluster 0
 
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
@@ -52,23 +47,24 @@ on fs
     #wait /dev/block/bootdevice/by-name/cache
     #mount ext4 /dev/block/bootdevice/by-name/cache /cache nosuid nodev barrier=1
 
-    #wait /dev/block/bootdevice/by-name/persist
-    #mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
+    wait /dev/block/bootdevice/by-name/persist
+    mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
     mkdir /persist/data 0700 system system
     restorecon_recursive /persist
 
     wait /dev/block/bootdevice/by-name/modem
-    mount vfat /dev/block/bootdevice/by-name/modem /firmware ro context=u:object_r:firmware_file:s0,shortname=lower,uid=1000,gid=1000,dmask=222,fmask=333
+    mount vfat /dev/block/bootdevice/by-name/modem /firmware ro context=u:object_r:firmware_file:s0,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
     write /sys/kernel/boot_adsp/boot 1
-    mkdir /log/sdlog 0775 system system
-    write /log/sdlog/sd_err.log 0
-    
-    service ota_detect /sbin/ota_sudden_poweroff_detect
-        class main
-        user root
-        group root
-        oneshot
-        seclabel u:r:ota_detect:s0 
+
+on post-fs
+    # We chown/chmod /cust again so because mount is run as root + defaults
+    chown system system /cust
+    chmod 0771 /cust
+    # We restorecon /cust in case the cust partition has been reset.
+    restorecon_recursive /cust
+
+    # create the lost+found directories, so as to enforce our permissions
+    mkdir /cust/lost+found 0770 root root
 
 on post-fs-data
     mkdir /data/tombstones 0771 system system
@@ -78,13 +74,26 @@ on post-fs-data
     mkdir /tombstones/dsps 0771 system system
     mkdir /persist/data/sfs 0700 system system
     mkdir /persist/data/tz 0700 system system
+    mkdir /data/misc/hbtp 0766 system system
     mkdir /data/misc/dts 0770 media audio
+    chown system system /sys/afe_properties/cfg_name
+    chown system system /sys/afe_properties/hallib_name
+    chown system system /sys/afe_properties/wake_up_enable
+
 
 #start camera server as daemon
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
     user camera
     group camera system inet input graphics
+
+on init
+   write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
+
+#enable zram
+on property:ro.config.zram=true
+    swapon_all fstab.qcom
+    write /proc/sys/vm/swappiness 100
 
 # Allow usb charging to be disabled peristently
 on property:persist.usb.chgdisabled=1
@@ -123,7 +132,7 @@ service perfd /system/bin/perfd
    user root
    disabled
 
-service thermal-engine /system/bin/thermal-engine
+service thermal-engine /system/bin/thermal-engine --norestorebrightness
    class main
    user root
    socket thermal-send-client stream 0666 system system
@@ -144,7 +153,6 @@ service audiod /system/bin/audiod
 on boot
     start rmt_storage
     insmod /system/lib/modules/adsprpc.ko
-
 # access permission for secure touch
     chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0020/secure_touch_enable
     chmod 0440 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0020/secure_touch
@@ -154,20 +162,39 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0020/secure_touch
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch
+    write /sys/bus/msm_subsys/devices/subsys2/restart_level RELATED
 
-service ppd /system/bin/mm-pp-daemon
+# +Caiyebo.wt, add, 20141210 for setGamma & setCe color adjust
+service coloradjust /system/bin/coloradjust
     class late_start
     disabled
     user system
-    socket pps stream 0660 system system
-    group system graphics
 
-on property:init.svc.surfaceflinger=stopped
-    stop ppd
+on property:service.bootanim.exit=1
+    setprop persist.sys.temp_prefer 5
+    setprop persist.sys.temp_ce 5
+    start coloradjust
+   
+on property:persist.sys.display_prefer=1
+    start coloradjust
+    
+on property:persist.sys.display_prefer=2
+    start coloradjust
+    
+on property:persist.sys.display_prefer=3
+    start coloradjust
 
-on property:init.svc.surfaceflinger=running
-    start ppd
+on property:persist.sys.display_ce=10
+    start coloradjust
+    
+on property:persist.sys.display_ce=11
+    start coloradjust
+    
+on property:persist.sys.display_ce=12
+    start coloradjust        
+# -Caiyebo.wt, add, 20141210 for setGamma & setCe color adjust
 
+    
 service wcnss-service /system/bin/wcnss_service
     class main
     user system
@@ -220,15 +247,6 @@ on property:init.svc.surfaceflinger=stopped
 on property:init.svc.surfaceflinger=running
     start ppd
 
-
-on charger-fs
-    mount ext4 /dev/block/bootdevice/by-name/userdata /data rw
-    mkdir /dev/usb-ffs 0770 shell shell
-    mkdir /dev/usb-ffs/adb 0770 shell shell
-    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
-    write /sys/class/android_usb/android0/f_ffs/aliases adb
-    mount vfat /dev/block/bootdevice/by-name/log /log uid=1000,gid=1007
-
 on charger
     wait /dev/block/bootdevice/by-name/system
     mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
@@ -238,12 +256,30 @@ on charger
     chmod 0664 /sys/class/power_supply/bms/voltage_ocv
     start vm_bms
     load_all_props
-    usb_init_setting
     start qcom-post-boot
-    start chargemonitor
+
+service hbtp /system/vendor/bin/hbtp_daemon
+    class main
+    user root
+    group root
+    disabled
 
 service dts_configurator /system/bin/dts_configurator
     class main
     user system
     group system
     oneshot
+
+service service_ad /system/bin/adenable
+    user root
+    oneshot
+    disabled
+
+on property:persist.sys.ltm_enable=*
+    start service_ad
+
+service mtservice /system/bin/mtd
+    class late_start
+
+service vsimservice /system/bin/vsimd
+    class late_start

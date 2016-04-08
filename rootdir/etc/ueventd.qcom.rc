@@ -45,7 +45,8 @@
 /dev/ipa                  0660   net_admin  net_admin
 /dev/wwan_ioctl           0660   net_admin  net_admin
 /dev/ipaNatTable          0660   net_admin  net_admin
-
+/dev/rmnet_ctrl           0660   usb        usb
+/dev/dpl_ctrl             0660   usb        usb
 #permissions for CSVT
 /dev/smd11                0660   radio      radio
 
@@ -192,6 +193,17 @@
 /sys/devices/virtual/optical_sensors/lightsensor    ls_poll_delay  0660    input    system
 /sys/devices/virtual/input/input*                   poll           0660    input    system
 /sys/devices/virtual/input/input*                   pollrate_ms    0660    input    system
+/sys/devices/soc.0/fpc1020.70                       enable_wakeup  0666    input    system
+
+# ctp
+/sys/devices/soc.0/78b9000.i2c/i2c-5/5-0038/sensors/ft5x06-proximity	enable	0660	input	system
+/sys/devices/virtual/gesture/gesture*		enable	0660	input	system
+/sys/devices/virtual/gesture/gesture*		pocket	0660	input	system
+
+# led
+/sys/devices/soc.0/78b5000.i2c/i2c-1/1-0045/leds/red		blink	0660	input	system
+/sys/devices/soc.0/78b5000.i2c/i2c-1/1-0045/leds/green		blink	0660	input	system
+/sys/devices/soc.0/78b5000.i2c/i2c-1/1-0045/leds/blue		blink	0660	input	system
 
 # vm_bms
 /dev/vm_bms               0660   system     system
@@ -200,10 +212,9 @@
 # wlan
 /dev/wcnss_wlan           0660   system     system
 /dev/wcnss_ctrl           0660   system     system
-/dev/rfkill               0660   root       wifi
-
 #nfc permissions
 /dev/nfc-nci              0660    nfc         nfc
+/dev/nq-nci               0660    nfc         nfc
 /dev/assd                 0660    nfc         nfc
 
 # UIO devices
@@ -220,19 +231,10 @@
 # Ramdump devices
 /dev/ramdump*             0640   system     system
 
+#Improve Touch
+/dev/hbtp_input           0660   system     system
+/dev/hbtp_vm              0660   system     system
+/dev/jdi-bu21150          0660   system     system
+
 # Add device block for FRP
 /dev/block/bootdevice/by-name/config    0660   system     system
-/dev/block/bootdevice/by-name/pad    0660   system     system
-
-# Huawei added these to /ueventd.rc
-/dev/dsm                  0660   system     dsm
-/dev/log/main             0662   root       log
-/dev/log/radio            0662   root       log
-/dev/log/system           0662   root       log
-/dev/block/bootdevice/by-name/config                 0660   system     system
-/dev/block/bootdevice/by-name/pad                 0660   system     system
-/dev/pil_mss_ctl          0660   root       system
-# for nxp smartPA
-/dev/i2c-1               0660   media      media
-/dev/i2c-0               0660   media      media
-/dev/i2c-6               0660   media      media

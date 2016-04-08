@@ -183,7 +183,39 @@ case "$target" in
         start_charger_monitor
         ;;
     "msm8916")
-        #start_msm_irqbalance_8939
+        start_msm_irqbalance_8939
+        if [ -f /sys/devices/soc0/soc_id ]; then
+            soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+            soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/platform_subtype_id ]; then
+             platform_subtype_id=`cat /sys/devices/soc0/platform_subtype_id`
+        fi
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+             hw_platform=`cat /sys/devices/soc0/hw_platform`
+        fi
+        case "$soc_id" in
+             "239")
+                  case "$hw_platform" in
+                       "Surf")
+                            case "$platform_subtype_id" in
+                                 "1" | "2")
+                                      setprop qemu.hw.mainkeys 0
+                                      ;;
+                            esac
+                            ;;
+                       "MTP")
+                            case "$platform_subtype_id" in
+                                 "3")
+                                      setprop qemu.hw.mainkeys 0
+                                      ;;
+                            esac
+                            ;;
+                  esac
+                  ;;
+        esac
         ;;
     "msm8994")
         start_msm_irqbalance
@@ -202,3 +234,13 @@ case "$emmc_boot"
         fi
     ;;
 esac
+
+#
+# Make modem config folder and copy firmware config to that folder
+#
+rm -rf /data/misc/radio/modem_config
+mkdir /data/misc/radio/modem_config
+chmod 770 /data/misc/radio/modem_config
+cp -r /firmware/image/modem_pr/mbn_ota/* /data/misc/radio/modem_config
+chown -hR radio.radio /data/misc/radio/modem_config
+echo 1 > /data/misc/radio/copy_complete

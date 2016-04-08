@@ -14,9 +14,9 @@ persist.rild.nitz_short_ons_1=
 persist.rild.nitz_short_ons_2=
 persist.rild.nitz_short_ons_3=
 persist.radio.rat_on=combine
-ril.subscription.types=NV,RUIM
+ril.subscription.types=RUIM
 DEVICE_PROVISIONED=1
-ro.telephony.default_network=9,9
+ro.telephony.default_network=22
 
 persist.radio.force_nw_search=1
 ro.config.eons_always_ap=false
@@ -60,8 +60,6 @@ ro.config.launcher_matchcard=1
 ro.hwpp_sig_stability_switch=true
 persist.radio.use_nv_force=false
 
-ro.telephony.ril_class=KiwiRIL
-
 # Camera
 ro.config.hw_burst_snapshot=true
 ro.config.hw_camera_bestShot=true
@@ -89,18 +87,17 @@ debug.enable.sglscale=1
 # disable vsync for cpu render apps
 debug.cpurend.vsync=false
 ro.opengles.version=196608
+
 # System property for cabl
 ro.qualcomm.cabl=0
-
 ro.qcom.ad=1
-ro.qcom.ad.calib.data=/system/etc/calib_kiw.cfg
+ro.qcom.ad.calib.data=/system/etc/calib.cfg
 
 # GPS
 persist.gps.qc_nlp_in_use=1
 persist.loc.nlp_name=com.qualcomm.location
 ro.gps.agps_provider=1
 ro.pip.gated=0
-
 
 # Media
 media.stagefright.enable-player=true
@@ -115,37 +112,34 @@ mm.enable.smoothstreaming=true
 mmp.enable.3g2=true
 media.aac_51_output_enabled=true
 ro.qc.sdk.audio.ssr=false
+ro.camera.sensors=s5k3l8,ov13853_q13853a,ov5670_q5v41b,s5k5e8
+
+# Audio
 ##fluencetype can be "fluence" or "fluencepro" or "none"
-ro.qc.sdk.audio.fluencetype=none
+ro.qc.sdk.audio.fluencetype=fluence
 persist.audio.fluence.voicecall=true
 persist.audio.fluence.voicerec=false
-persist.audio.fluence.speaker=true
+persist.audio.fluence.speaker=false
 #Set for msm8916
 tunnel.audio.encode = false
+#add for xiaomi miyi(dirace) effect
+audio.offload.disable=1
 #Buffer size in kbytes for compress offload playback
 audio.offload.buffer.size.kb=64
 #Minimum duration for offload playback in secs
 audio.offload.min.duration.secs=30
 #Enable offload audio video playback by default
 av.offload.enable=true
-#tenghui modify for software menu  2014/11/20
 #enable voice path for PCM VoIP by default
 use.voice.path.for.pcm.voip=true
-#/* < DTS2015072103021 tianli/220177 20150721 begin */
-#disable offload audio playback for DTS in the DSP
-audio.offload.pcm.enable=false
-audio.offload.disable=1
-#/* < DTS2015042705935 tianli/220177 20150422 begin */
-#Enable offload audio playback for DTS in the DSP
-#/* DTS2015042705935 tianli/220177 20150422 end > */
-#/* DTS2015072103021 tianli/220177 20150721 end > */
+
 #System property for FM transmitter
 ro.fm.transmitter=false
 #enable dsp gapless mode by default
 audio.offload.gapless.enabled=true
 #Audio voice concurrency related flags
-voice.playback.conc.disabled=false
-voice.record.conc.disabled=false
+voice.playback.conc.disabled=true
+voice.record.conc.disabled=true
 voice.voip.conc.disabled=true
 
 # Net
@@ -159,3 +153,4 @@ qemu.hw.mainkeys=0
 ro.qcom.ad.sensortype=2
 ro.vendor.extension_library=libqti-perfd-client.so
 persist.sys.isUsbOtgEnabled=true
+

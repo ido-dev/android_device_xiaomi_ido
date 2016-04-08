@@ -12,7 +12,8 @@
     "target_path": "external/stlport"
   },
   {
-    "repository": "android_kernel_huawei_kiwi",
-    "target_path": "kernel/huawei/kiwi"
+    "repository": "android_kernel_xiaomi_ido",
+    "target_path": "kernel/xiaomi/ido"
   }
 ]
+
