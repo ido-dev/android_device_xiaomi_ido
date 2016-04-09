@@ -65,20 +65,18 @@ status_t SensorManager::assertStateLocked() const {
     if (mSensorServer == NULL) {
         // try for one second
         const String16 name("sensorservice");
-        status_t err = NO_ERROR;
-
+        status_t err;
         for (int i=0 ; i<4 ; i++) {
-            if (i > 0) {
-                // Don't sleep on the first try or after the last failed try
-                usleep(250000);
-            }
             err = getService(name, &mSensorServer);
-            if (err != NAME_NOT_FOUND) {
-                break;
+            if (err == NAME_NOT_FOUND) {
+                usleep(250000);
+                continue;
             }
+            break;
         }
 
         if (err != NO_ERROR) {
+            ALOGI("find sensorservice failed: %d", err);
             return err;
         }
 
@@ -166,3 +164,4 @@ sp<SensorEventQueue> SensorManager::createEventQueue()
 
 // ----------------------------------------------------------------------------
 }; // namespace android
+

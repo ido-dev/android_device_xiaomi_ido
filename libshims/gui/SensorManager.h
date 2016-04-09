@@ -73,3 +73,4 @@ private:
 }; // namespace android
 
 #endif // ANDROID_GUI_SENSOR_MANAGER_H
+
