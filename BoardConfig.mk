@@ -43,19 +43,20 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 TARGET_NO_BOOTLOADER := true
 
 # Kernel
+BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_CMDLINE := console=115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
-BOARD_DTBTOOL_ARGS := -2
-BOARD_KERNEL_TAGS_OFFSET := 0x00000100
-BOARD_RAMDISK_OFFSET     := 0x02000000
-TARGET_KERNEL_SOURCE := kernel/xiaomi/ido
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00000100 --ramdisk_offset 0x02000000
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
+
+#TARGET_KERNEL_SOURCE := kernel/xiaomi/ido
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_USES_UNCOMPRESSED_KERNEL := true
-TARGET_KERNEL_CONFIG := cyanogenmod_ido_defconfig
+#TARGET_KERNEL_CONFIG := cyanogenmod_ido_defconfig
 
 # Audio
 AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
