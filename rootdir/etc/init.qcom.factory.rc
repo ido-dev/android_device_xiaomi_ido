@@ -37,18 +37,6 @@ service srvmag_ffbm /system/bin/servicemanager
     disabled
     oneshot
 
-service bms-sh /system/bin/sh /init.qcom.bms.sh
-    class main
-    user root
-    oneshot
-
-service fpdaemon_fastmmi /system/bin/gxFpDaemon
-    user system
-    group system
-    class late_start
-    oneshot
-    disabled
-
 # Creating a scratch storage on /data for factory testing.
 on factory-fs
     mount tmpfs tmpfs /data
@@ -57,9 +45,6 @@ on mmi
     # ====================================================================
     #       The follow setting come from "on boot" in init.qcom.rc
     # ====================================================================
-    write /sys/class/android_usb/android0/iSerial "0123456789"
-    setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
-    setprop persist.sys.usb.factory 1
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -78,6 +63,8 @@ on mmi
     chmod 0660 /dev/ttyHS0
     chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
     chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+    chown system system /sys/module/radio_iris_transport/parameters/fmsmd_set
+    chmod 0660 /sys/module/radio_iris_transport/parameters/fmsmd_set
 
     chmod 0660 /dev/ttyHS2
     chown bluetooth bluetooth /dev/ttyHS2
@@ -152,8 +139,6 @@ on mmi
     write /proc/sys/net/ipv6/conf/rmnet_usb1/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 960000
-    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 800000
 
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
@@ -261,10 +246,6 @@ on mmi
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
 
-    # Goodix Fingerprint
-    chown system system /dev/goodix_fp
-    chmod 0644 /dev/goodix_fp 
-
     # Define default initial receive window size in segments.
     setprop net.tcp.default_init_rwnd 60
 
@@ -277,13 +258,24 @@ on mmi
 
     #mkdir for factory data files.
     mkdir /cache/FTM_AP 0750 root root
+    #sensor settings
+    chmod 775 /persist/sensors
+    chmod 664 /persist/sensors/sensors_settings
+    chown system root /persist/sensors/sensors_settings
+    mkdir /data/misc/sensors 775 system root
+
+    #Create NETMGR daemon socket area
+    mkdir /dev/socket/netmgr 0750 radio radio
 
     #Start the following services needed for fftm
     start qcom-usb-sh
     start logd
     start debuggerd
     start debuggerd64
+    start per_mgr
+    start ril-daemon
     start config_bluetooth
+    start sensors
     start media
     start fastmmi
     start wcnss-service
@@ -295,11 +287,8 @@ on mmi
     start qcomsysd
     start srvmag_ffbm
     start ptt_ffbm
-    start bms-sh
-    start qseecomd
-    write /sys/bus/msm_subsys/devices/subsys2/restart_level RELATED
- 
-    start fpdaemon_fastmmi
+# xuke @ 20151010	Add this line to fix the BT FFBM test issue.
+    start ftmd
 
 on ffbm
     trigger early-fs
@@ -313,6 +302,8 @@ on ffbm
     # issued fs triggers have completed.
     trigger load_all_props_action
 
+    # Remove a file to wake up anything waiting for firmware.
+    trigger firmware_mounts_complete
+
     trigger early-boot
     trigger mmi
-

@@ -1,4 +1,4 @@
-# Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -47,6 +47,7 @@
 /dev/ipaNatTable          0660   net_admin  net_admin
 /dev/rmnet_ctrl           0660   usb        usb
 /dev/dpl_ctrl             0660   usb        usb
+
 #permissions for CSVT
 /dev/smd11                0660   radio      radio
 
@@ -106,6 +107,7 @@
 /dev/media*               0660   system     camera
 /dev/v4l-subdev*          0660   system     camera
 /dev/qseecom              0660   system     drmrpc
+/dev/seemplog             0660   system     system
 /dev/pft                  0660   system     drmrpc
 /dev/gemini0              0660   system     camera
 /dev/jpeg0                0660   system     camera
@@ -113,6 +115,7 @@
 /dev/jpeg2                0660   system     camera
 /dev/jpeg3                0660   system     camera
 /dev/adsprpc-smd          0664   system     system
+/dev/system_health_monitor 0640  radio      system
 /dev/msm_camera/*         0660   system     camera
 /dev/gemini/              0660   system     camera
 /dev/mercury0             0660   system     camera
@@ -130,6 +133,8 @@
 /dev/msm_evrc             0660   system     audio
 /dev/msm_wma              0660   system     audio
 /dev/msm_wmapro           0660   system     audio
+/dev/msm_alac             0660   system     audio
+/dev/msm_ape              0660   system     audio
 /dev/msm_amrnb            0660   system     audio
 /dev/msm_amrwb            0660   system     audio
 /dev/msm_amrwbplus        0660   system     audio
@@ -142,6 +147,7 @@
 /dev/msm_a2dp_in          0660   system     audio
 /dev/msm_ac3              0660   system     audio
 /dev/msm_audio_cal        0660   system     audio
+/dev/msm_hweffects        0660   system     audio
 /dev/msm_cad              0660   system     audio
 /dev/msm_fm               0660   system     audio
 /dev/msm_mvs              0660   system     audio
@@ -149,7 +155,6 @@
 /dev/msm_preproc_ctl      0660   system     audio
 /dev/msm_rtac             0660   system     audio
 /dev/msm_voicememo        0660   system     audio
-/dev/radio0               0640   fm_radio   fm_radio
 /dev/smd3                 0660   bluetooth  net_bt_stack
 /dev/smd2                 0660   bluetooth  net_bt_stack
 /dev/ttyHSL1              0660   system     system
@@ -161,6 +166,7 @@
 /dev/ttyGS0               0660   system     system
 /dev/i2c-5                0660   media       media
 /dev/voice_svc            0660   system     audio
+/dev/avtimer              0660   system     audio
 
 # DVB devices
 /dev/dvb/adapter0/demux*  0440   media       media
@@ -193,7 +199,6 @@
 /sys/devices/virtual/optical_sensors/lightsensor    ls_poll_delay  0660    input    system
 /sys/devices/virtual/input/input*                   poll           0660    input    system
 /sys/devices/virtual/input/input*                   pollrate_ms    0660    input    system
-/sys/devices/soc.0/fpc1020.70                       enable_wakeup  0666    input    system
 
 # ctp
 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0038/sensors/ft5x06-proximity	enable	0660	input	system
@@ -235,6 +240,9 @@
 /dev/hbtp_input           0660   system     system
 /dev/hbtp_vm              0660   system     system
 /dev/jdi-bu21150          0660   system     system
+
+# Fingerprint device
+/dev/ontario              0640   system     system
 
 # Add device block for FRP
 /dev/block/bootdevice/by-name/config    0660   system     system

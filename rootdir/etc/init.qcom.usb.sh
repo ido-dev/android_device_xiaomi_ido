@@ -124,18 +124,21 @@ case "$usb_config" in
               *)
 		case "$target" in
                         "msm8916")
-                            #setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
-                            if [ -z "$debuggable" -o "$debuggable" = "1" ]; then
-                                setprop persist.sys.usb.config mtp,adb
-                            else
-                                setprop persist.sys.usb.config mtp
-                            fi
+                            setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
                         ;;
                         "msm8994")
                             setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_ipa,mass_storage,adb
                         ;;
                         "msm8909")
                             setprop persist.sys.usb.config diag,serial_smd,rmnet_qti_bam,adb
+                        ;;
+                        "msm8952" | "msm8976")
+                            # setprop persist.sys.usb.config diag,serial_smd,rmnet_ipa,adb
+                            if [ -z "$debuggable" -o "$debuggable" = "1" ]; then
+                                setprop persist.sys.usb.config mtp,adb
+                            else
+                                setprop persist.sys.usb.config mtp
+                            fi
                         ;;
                         *)
                             setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
@@ -172,6 +175,12 @@ case "$target" in
     "msm8994")
         echo BAM2BAM_IPA > /sys/class/android_usb/android0/f_rndis_qc/rndis_transports
         echo 1 > /sys/class/android_usb/android0/f_rndis_qc/max_pkt_per_xfer # Disable RNDIS UL aggregation
+    ;;
+    "msm8952" | "msm8976")
+        echo BAM2BAM_IPA > /sys/class/android_usb/android0/f_rndis_qc/rndis_transports
+
+	# Increase RNDIS DL max aggregation size to 11K
+	echo 11264 > /sys/module/g_android/parameters/rndis_dl_max_xfer_size
     ;;
 esac
 
@@ -224,7 +233,7 @@ esac
 cdromname="/system/etc/cdrom_install.iso"
 platformver=`cat /sys/devices/soc0/hw_platform`
 case "$target" in
-	"msm8226" | "msm8610" | "msm8916" | "msm8909")
+	"msm8226" | "msm8610" | "msm8916" | "msm8909" | "msm8952")
 		case $platformver in
 			"QRD")
 				echo "mounting usbcdrom lun"
@@ -256,7 +265,7 @@ case "$soc_id" in
 	"239" | "241" | "263" | "268" | "269" | "270")
 		setprop sys.usb.rps_mask 10
 	;;
-	"245" | "260" | "261" | "262")
-		setprop sys.usb.rps_mask 2
+	"245" | "258" | "259" | "265" | "275")
+		setprop sys.usb.rps_mask 4
 	;;
 esac
