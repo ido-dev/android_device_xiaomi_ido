@@ -674,3 +674,23 @@ etc/firmware/ice40.bin
 etc/firmware/leia_pfp_470.fw
 etc/firmware/leia_pm4_470.fw
 
+# Modules
+lib/modules/pronto/pronto_wlan.ko
+lib/modules/ansi_cprng.ko
+lib/modules/core_ctl.ko
+lib/modules/evbug.ko
+lib/modules/gpio_axis.ko
+lib/modules/gpio_event.ko
+lib/modules/gpio_input.ko
+lib/modules/gpio_matrix.ko
+lib/modules/gpio_output.ko
+lib/modules/gspca_main.ko
+lib/modules/mcDrvModule.ko
+lib/modules/mcKernelApi.ko
+lib/modules/mmc_block_test.ko
+lib/modules/mmc_test.ko
+lib/modules/radio-iris-transport.ko
+lib/modules/spidev.ko
+lib/modules/test-iosched.ko
+lib/modules/wlan.ko
+
