@@ -1,0 +1,2 @@
+add_lunch_combo cm_ido-userdebug
+add_lunch_combo cm_ido-eng
