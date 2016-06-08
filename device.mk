@@ -283,7 +283,8 @@ PRODUCT_PACKAGES += \
     libqsap_sdk \
     libQWiFiSoftApCfg \
     libwpa_client \
-    libwcnss_qmi
+    libwcnss_qmi \
+    wificond
 
 PRODUCT_PACKAGES += \
     hostapd_default.conf \
