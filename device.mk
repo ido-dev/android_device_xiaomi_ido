@@ -126,7 +126,6 @@ PRODUCT_PACKAGES += \
     libmm-qcamera \
     libshim_camera \
     libboringssl-compat \
-    libstlport \
     Snap
 
 # ConsumerIR
