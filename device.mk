@@ -21,8 +21,10 @@ $(call inherit-product-if-exists, frameworks/native/build/phone-xhdpi-2048-hwui-
 
 $(call inherit-product, vendor/xiaomi/ido/ido-vendor.mk)
 
-# Overlays
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+# Overlay
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay \
+    $(LOCAL_PATH)/overlay-lineage
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
