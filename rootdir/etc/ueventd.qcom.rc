@@ -249,3 +249,6 @@
 
 # Add device block for FRP
 /dev/block/bootdevice/by-name/config    0660   system     system
+
+# Kmsg device
+/dev/kmsg            0620   root       system
